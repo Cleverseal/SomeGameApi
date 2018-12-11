@@ -7,16 +7,20 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SomeGameAPI.Entities;
-using SomeGameAPI.Models;
 using SomeGameAPI.Helpers;
+using SomeGameAPI.Models;
 
 namespace SomeGameAPI.Services
 {
     public interface IUserService
     {
-        User Authenticate(LoginModel model);
+        User Login(LoginModel model);
 
         User Signin(SigninModel model);
+
+        bool UpdateUser(User user);
+
+        bool DeleteUser(int id);
 
         IEnumerable<User> GetAll();
     }
@@ -34,7 +38,7 @@ namespace SomeGameAPI.Services
             this.appSettings = appSettings.Value;
         }
 
-        public User Authenticate(LoginModel model)
+        public User Login(LoginModel model)
         {
             var user = this.context.Users.SingleOrDefault(x => x.Username == model.Username && x.Password == model.Password);
 
@@ -49,16 +53,7 @@ namespace SomeGameAPI.Services
 
             return user;
         }
-
-        public IEnumerable<User> GetAll()
-        {
-            // return users without passwords
-            return this.context.Users.AsEnumerable<User>().Select(x => {
-                x.Password = null;
-                return x;
-            });
-        }
-
+        
         public User Signin(SigninModel model)
         {
             if (this.context.Users.Any(x => x.Username == model.Username)) return null;
@@ -76,6 +71,45 @@ namespace SomeGameAPI.Services
             this.context.SaveChanges();
 
             return user;
+        }
+
+        public bool UpdateUser(User user)
+        {
+            var exist = this.context.Users.FirstOrDefault(x => x.Id == user.Id);
+            if (exist != null)
+            {
+                exist.Username = user.Username;
+                exist.Password = user.Password;
+                exist.FirstName = user.FirstName;
+                exist.LastName = user.LastName;
+                this.context.Users.Update(exist);
+                this.context.SaveChanges();
+                return true;
+            }
+
+            return false;
+        }
+
+        public IEnumerable<User> GetAll()
+        {
+            // return users without passwords
+            return this.context.Users.AsEnumerable<User>().Select(x => {
+                x.Password = null;
+                return x;
+            });
+        }
+
+        public bool DeleteUser(int id)
+        {
+            var user = this.context.Users.FirstOrDefault(x => x.Id == id);
+            if (user != null)
+            {
+                this.context.Users.Remove(user);
+                this.context.SaveChanges();
+                return true;
+            }
+
+            return false;
         }
     }
 }

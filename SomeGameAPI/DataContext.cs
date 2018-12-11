@@ -7,18 +7,18 @@ namespace SomeGameAPI
 {
     public class DataContext : DbContext
     {
-        public DbSet<User> Users { get; set; }
-
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
             this.InitDatabase();
         }
 
+        public DbSet<User> Users { get; set; }
+
         private void InitDatabase()
         {
             if (!this.Users.Any())
             {
-                this.Users.Add(new User { Id = 0, FirstName = "Test", LastName = "User", Username = "test", Password = "test" });
+                this.Users.Add(new User { Id = 1, FirstName = "Test", LastName = "User", Username = "test", Password = "test" });
                 this.SaveChanges();
             }
         }

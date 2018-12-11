@@ -14,6 +14,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using NJsonSchema;
+using NSwag.AspNetCore;
 using SomeGameAPI.Helpers;
 using SomeGameAPI.Services;
 
@@ -31,11 +33,9 @@ namespace SomeGameAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // configure strongly typed settings objects
             var appSettingsSection = this.Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
-
-            // configure jwt authentication
+            
             var appSettings = appSettingsSection.Get<AppSettings>();
 
             services.AddDbContext<DataContext>(options => options.UseInMemoryDatabase("database"));
@@ -62,7 +62,17 @@ namespace SomeGameAPI
                 };
             });
 
-            // configure DI for application services
+            services.AddSwaggerDocument(settings =>
+            {
+                settings.PostProcess = document =>
+                {
+                    document.Info.Version = "v1";
+                    document.Info.Title = "Test app";
+                    document.Info.Description = "A simple ASP.NET Core web API";
+                    document.Info.TermsOfService = "None";
+                };
+            });
+            
             services.AddScoped<IUserService, UserService>();
         }
 
@@ -71,8 +81,7 @@ namespace SomeGameAPI
         {
             loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
-            // global cors policy
+            
             app.UseCors(x => x
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
@@ -80,6 +89,8 @@ namespace SomeGameAPI
                 .AllowCredentials());
 
             app.UseAuthentication();
+            app.UseSwagger();
+            app.UseSwaggerUi3();
 
             app.UseMvc();
         }
