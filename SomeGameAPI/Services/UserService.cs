@@ -7,8 +7,8 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SomeGameAPI.Entities;
-using SomeGameAPI.Helpers;
 using SomeGameAPI.Models;
+using SomeGameAPI.Helpers;
 
 namespace SomeGameAPI.Services
 {
@@ -40,21 +40,9 @@ namespace SomeGameAPI.Services
 
             // return null if user not found
             if (user == null) return null;
-            
+
             // authentication successful so generate jwt token
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(this.appSettings.Secret);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, user.Username.ToString())
-                }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            user.Token = tokenHandler.WriteToken(token);
+            user.Token = BearerTokenGenerator.GetToken(this.appSettings.Secret, user.Username);
 
             // remove password before returning
             user.Password = null;
@@ -76,10 +64,11 @@ namespace SomeGameAPI.Services
             if (this.context.Users.Any(x => x.Username == model.Username)) return null;
             var user = new User()
             {
+                Id = this.context.Users.Select(x => x.Id).Max() + 1,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Password = model.Password,
-                Username = model.Username,
+                Username = model.Username
             };
 
             user.Token = BearerTokenGenerator.GetToken(this.appSettings.Secret, user.Username);
