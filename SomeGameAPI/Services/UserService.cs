@@ -7,19 +7,6 @@ using SomeGameAPI.Models;
 
 namespace SomeGameAPI.Services
 {
-    public interface IUserService
-    {
-        User Login(LoginModel model);
-
-        User Signin(SigninModel model);
-
-        bool UpdateUser(User user);
-
-        bool DeleteUser(int id);
-
-        IEnumerable<User> GetAll();
-    }
-
     public class UserService : IUserService
     {
         // users hardcoded for simplicity, store in a db with hashed passwords in production applications

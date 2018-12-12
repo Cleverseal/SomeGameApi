@@ -8,15 +8,6 @@ using SomeGameAPI.Models;
 
 namespace SomeGameAPI.Services
 {
-    public interface IWalktroughService
-    {
-        IEnumerable<Walkthrough> GetUserWalkthroughs(int userId);
-
-        IEnumerable<LeaderboardPosition> GetLeaderBoard();
-
-        void AddWalkthrough(Walkthrough walkthrough);
-    }
-
     public class WalkthroughService : IWalktroughService
     {
         // users hardcoded for simplicity, store in a db with hashed passwords in production applications
