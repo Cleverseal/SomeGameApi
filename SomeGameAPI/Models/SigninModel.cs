@@ -7,9 +7,7 @@ namespace SomeGameAPI.Models
 {
     public class SigninModel
     {
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
+        public string Nickname { get; set; }
 
         public string Username { get; set; }
 

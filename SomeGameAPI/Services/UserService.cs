@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using SomeGameAPI.Entities;
 using SomeGameAPI.Helpers;
 using SomeGameAPI.Models;
@@ -59,9 +54,8 @@ namespace SomeGameAPI.Services
             if (this.context.Users.Any(x => x.Username == model.Username)) return null;
             var user = new User()
             {
-                Id = this.context.Users.Select(x => x.Id).Max() + 1,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
+                Id = this.context.Users.Max(x => x.Id) + 1,
+                NickName = model.Nickname,
                 Password = model.Password,
                 Username = model.Username
             };
@@ -80,8 +74,7 @@ namespace SomeGameAPI.Services
             {
                 exist.Username = user.Username;
                 exist.Password = user.Password;
-                exist.FirstName = user.FirstName;
-                exist.LastName = user.LastName;
+                exist.NickName = user.NickName;
                 this.context.Users.Update(exist);
                 this.context.SaveChanges();
                 return true;
