@@ -20,7 +20,7 @@ namespace SomeGameAPI
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-                .UseUrls("http://10.10.43.43:4000")
+                .UseUrls("http://localhost:4000")
                 .Build();
     }
 }

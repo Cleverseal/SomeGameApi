@@ -9,7 +9,6 @@ namespace SomeGameAPI.Services
 {
     public class UserService : IUserService
     {
-        // users hardcoded for simplicity, store in a db with hashed passwords in production applications
         private readonly DataContext context;
 
         private readonly AppSettings appSettings;
@@ -42,7 +41,8 @@ namespace SomeGameAPI.Services
             var user = new User()
             {
                 Id = this.context.Users.Max(x => x.Id) + 1,
-                NickName = model.Nickname,
+                FirstName = model.Nickname,
+                SecondName = model.Nickname,
                 Password = model.Password,
                 Username = model.Username
             };
@@ -61,7 +61,9 @@ namespace SomeGameAPI.Services
             {
                 exist.Username = user.Username;
                 exist.Password = user.Password;
-                exist.NickName = user.NickName;
+                exist.FirstName = user.FirstName;
+                exist.SecondName = user.SecondName;
+                exist.DepId = user.DepId;
                 this.context.Users.Update(exist);
                 this.context.SaveChanges();
                 return true;
