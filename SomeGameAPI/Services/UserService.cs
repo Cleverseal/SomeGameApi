@@ -41,8 +41,8 @@ namespace SomeGameAPI.Services
             var user = new User()
             {
                 Id = this.context.Users.Max(x => x.Id) + 1,
-                FirstName = model.Nickname,
-                SecondName = model.Nickname,
+                FirstName = model.FirstName,
+                SecondName = model.SecondName,
                 Password = model.Password,
                 Username = model.Username
             };

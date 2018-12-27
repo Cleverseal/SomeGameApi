@@ -23,15 +23,15 @@ namespace SomeGameAPI.Controllers
         }
 
         /// <summary>
-        /// Starting new procedure 
+        /// Starting new procedure and returns it`s id
         /// </summary>
         /// <param name="procedure">Procedure to start</param>
-        /// <returns></returns>
+        /// <returns>Started procedure`s id</returns>
         [HttpPost("Start")]
-        public ActionResult StartProcedure(StartingProcedure procedure)
+        public ActionResult<int> StartProcedure(StartingProcedure procedure)
         {
-            this.procedureService.StartProcedure(procedure);
-            return this.Ok();
+            var id = this.procedureService.StartProcedure(procedure);
+            return this.Ok(id);
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace SomeGameAPI.Controllers
         /// <param name="id">Patient`s id</param>
         /// <returns></returns>
         [HttpGet("PatientProcedures/{id}")]
-        public ActionResult GetPatientProcedures(int id)
+        public ActionResult<List<Procedure>> GetPatientProcedures(int id)
         {
             return this.Ok(this.procedureService.GetAllPatientProcedures(id));
         }

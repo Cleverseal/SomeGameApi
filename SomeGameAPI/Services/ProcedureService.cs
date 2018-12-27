@@ -24,7 +24,7 @@ namespace SomeGameAPI.Services
         {
             var procedure = new Procedure
             {
-                Id = context.TestingProcedures.Max(x => x.Id) + 1,
+                Id = context.Procedures.Max(x => x.Id) + 1,
                 DateTime = DateTime.Now,
                 Comments = startingProcedure.Comments,
                 PatientId = startingProcedure.PatientId,
@@ -39,13 +39,14 @@ namespace SomeGameAPI.Services
 
         public bool EndProcedure(int procedureId)
         {
-            var procedure = this.context.TestingProcedures.FirstOrDefault(x => x.Id == procedureId);
+            var procedure = this.context.Procedures.FirstOrDefault(x => x.Id == procedureId && x.Status == "Active");
+            if (procedure != null) procedure.Status = "Ended";
             return procedure != null;
         }
 
         public List<Procedure> GetAllPatientProcedures(int PatientId)
         {
-            return this.context.TestingProcedures.Where(x => x.PatientId == PatientId).ToList();
+            return this.context.Procedures.Where(x => x.PatientId == PatientId).ToList();
         }
     }
 }
