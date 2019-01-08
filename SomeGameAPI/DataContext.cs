@@ -25,7 +25,7 @@ namespace SomeGameAPI
         {
             if (!this.Users.Any())
             {
-                this.Users.Add(new User { Id = 1, Password = "test", FirstName = "test", Username = "Margo" });
+                this.Users.Add(new User { Id = 1, Password = "testtest", FirstName = "test", Username = "Margo@gmail.com" });
                 this.Users.Add(new User { Id = 2, Password = "test", SecondName = "heh",Username = "Mykyta" });
             }
 
