@@ -13,5 +13,9 @@ namespace SomeGameAPI.Entities
         public string Comments { get; set; }
 
         public string Status { get; set; }
+
+        public int Heartrate { get; set; }
+
+        public float Temperature { get; set; }
     }
 }

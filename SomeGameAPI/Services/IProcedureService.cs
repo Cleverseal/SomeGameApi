@@ -10,6 +10,10 @@ namespace SomeGameAPI.Services
 
         bool EndProcedure(int procedureId);
 
-        List<Procedure> GetAllPatientProcedures(int UserId);
+        Procedure GetActivePatientProcedure(int UserId);
+
+        void SetHeartrate(int procedureId, int heartrate);
+
+        void SetTemperature(int procedureId, float temperature);
     }
 }

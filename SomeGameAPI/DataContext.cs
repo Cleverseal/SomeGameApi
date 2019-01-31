@@ -29,14 +29,14 @@ namespace SomeGameAPI
                 this.Users.Add(new User { Id = 2, Password = "test", SecondName = "heh",Username = "Mykyta" });
             }
 
-            if (this.Patients.Any())
+            if (!this.Patients.Any())
             {
                 this.Patients.Add(new Patient { Id = 1, FirstName = "Mykyta", LastName = "Tilinin", Diagnosis = "No", Birthday = new DateTime(1999, 6, 6) });
-                this.Patients.Add(new Patient { Id = 1, FirstName = "Andrey", LastName = "Awesome", Diagnosis = "Autism", Birthday = new DateTime(1970, 1, 1) });
-                this.Patients.Add(new Patient { Id = 1, FirstName = "Myshanya", LastName = "Petrosyan", Diagnosis = "No", Birthday = new DateTime(1999, 6, 6) });
-                this.Patients.Add(new Patient { Id = 1, FirstName = "Tygran", LastName = "Petrosyan", Diagnosis = "Autism", Birthday = new DateTime(1998, 6, 6) });
-                this.Patients.Add(new Patient { Id = 1, FirstName = "Leha", LastName = "Matematick", Diagnosis = "Yes", Birthday = new DateTime(1999, 6, 6) });
-                this.Patients.Add(new Patient { Id = 1, FirstName = "Maxim", LastName = "Tatarin", Diagnosis = "No", Birthday = new DateTime(1999, 6, 26) });
+                this.Patients.Add(new Patient { Id = 2, FirstName = "Andrey", LastName = "Awesome", Diagnosis = "Autism", Birthday = new DateTime(1970, 1, 1) });
+                this.Patients.Add(new Patient { Id = 3, FirstName = "Myshanya", LastName = "Petrosyan", Diagnosis = "No", Birthday = new DateTime(1999, 6, 6) });
+                this.Patients.Add(new Patient { Id = 4, FirstName = "Tygran", LastName = "Petrosyan", Diagnosis = "Autism", Birthday = new DateTime(1998, 6, 6) });
+                this.Patients.Add(new Patient { Id = 5, FirstName = "Leha", LastName = "Matematick", Diagnosis = "Yes", Birthday = new DateTime(1999, 6, 6) });
+                this.Patients.Add(new Patient { Id = 6, FirstName = "Maxim", LastName = "Tatarin", Diagnosis = "No", Birthday = new DateTime(1999, 6, 26) });
             }
 
             if (this.ChangeTracker.HasChanges()) this.SaveChanges();

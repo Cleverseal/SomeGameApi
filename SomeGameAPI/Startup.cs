@@ -35,7 +35,7 @@ namespace SomeGameAPI
         {
             var appSettingsSection = this.Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
-            
+
             var appSettings = appSettingsSection.Get<AppSettings>();
 
             services.AddDbContext<DataContext>(options => options.UseInMemoryDatabase("database"));
@@ -72,9 +72,10 @@ namespace SomeGameAPI
                     document.Info.TermsOfService = "None";
                 };
             });
-            
+
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPatientService, PatientService>();
+            services.AddScoped<IProcedureService, ProcedureService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -82,9 +83,8 @@ namespace SomeGameAPI
         {
             loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-            
-            app.UseCors(x => x
-                .AllowAnyOrigin()
+
+            app.UseCors(x => x.WithOrigins("localhost:3000")
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials());

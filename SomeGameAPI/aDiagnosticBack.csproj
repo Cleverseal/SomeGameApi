@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Content\Images\Screens\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

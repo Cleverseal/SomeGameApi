@@ -24,7 +24,7 @@ namespace SomeGameAPI.Services
         {
             var procedure = new Procedure
             {
-                Id = context.Procedures.Max(x => x.Id) + 1,
+                Id = context.Procedures.Count() == 0 ? 0 : context.Procedures.Max(x => x.Id) + 1,
                 DateTime = DateTime.Now,
                 Comments = startingProcedure.Comments,
                 PatientId = startingProcedure.PatientId,
@@ -44,9 +44,21 @@ namespace SomeGameAPI.Services
             return procedure != null;
         }
 
-        public List<Procedure> GetAllPatientProcedures(int PatientId)
+        public Procedure GetActivePatientProcedure(int PatientId)
         {
-            return this.context.Procedures.Where(x => x.PatientId == PatientId).ToList();
+            return this.context.Procedures.FirstOrDefault(x => x.PatientId == PatientId && x.Status == "Active");
+        }
+
+        public void SetHeartrate(int procedureId, int heartrate)
+        {
+            var procedure = this.context.Procedures.FirstOrDefault(x => x.Id == procedureId);
+            if (procedure != null) procedure.Heartrate = heartrate;
+        }
+
+        public void SetTemperature(int procedureId, float temperature)
+        {
+            var procedure = this.context.Procedures.FirstOrDefault(x => x.Id == procedureId);
+            if (procedure != null) procedure.Temperature = temperature;
         }
     }
 }
